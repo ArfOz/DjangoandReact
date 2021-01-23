@@ -20,10 +20,13 @@ class PostDetailViewSerializer(serializers.ModelSerializer):
             "author",   
         )
 
-class PostSerializer(serializers.ModelSerializer):
+class PostViewSerializer(serializers.ModelSerializer):
     class Meta:
-        model = PostView
-        fields = '__all__'
+        model = Post
+        fields = (
+            "author",   
+            "title",
+        )
 
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:

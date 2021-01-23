@@ -1,41 +1,35 @@
-from django.db import models
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from rest_framework.validators import UniqueValidator
-from django.contrib.auth.password_validation import validate_password
+
+# User Serializer
 
 
-class RegistrationSerializer(serializers.ModelSerializer):
-    email = serializers.EmailField(required=True, validators=[
-                                   UniqueValidator(queryset=User.objects.all())])
-    password = serializers.CharField(write_only=True, required=True, validators=[
-                                     validate_password], style={'input_type': 'password'})
-    password2 = serializers.CharField(write_only=True, required=True, style={
-                                      'input_type': 'password'})
-
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = (
-            "username",
-            "email",
-            "password",
-            "password2"
-        )
+        fields = ('id', 'username', 'email')
 
-    def validate(self, attrs):
-        if attrs["password"] != attrs["password2"]:
-            raise serializers.ValidationError(
-                {"password": "Password didn't match"}
-            )
-        return attrs
+# Register Serializer
+
+
+class RegisterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id', 'username', 'email', 'password')
+        extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
-        user = User.objects.create(
-            username=validated_data["username"],
-            email=validated_data["email"]
-        )
-
-        user.set_password(validated_data["password"])
-        user.save()
+        user = User.objects.create_user(
+            validated_data['username'], validated_data['email'], validated_data['password'])
 
         return user
+
+
+class ChangePasswordSerializer(serializers.Serializer):
+    model = User
+
+    """
+    Serializer for password change endpoint.
+    """
+    old_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(required=True)

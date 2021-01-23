@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'nested_admin',
     'user.apps.UserConfig',
     'rest_framework.authtoken',
+    'knox',
+    'django_rest_passwordreset',
 ]
 
 MIDDLEWARE = [
@@ -123,3 +125,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': ('knox.auth.TokenAuthentication',),
+    
+}
