@@ -39,7 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'blog.apps.BlogConfig',
     'rest_framework',
-    'nested_admin'
+    'nested_admin',
+    'user.apps.UserConfig',
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [

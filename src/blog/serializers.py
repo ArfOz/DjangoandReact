@@ -10,15 +10,20 @@ class CategorySerializer(serializers.ModelSerializer):
             "post_count"
         )
 
-class PostSerializer(serializers.ModelSerializer):
+class PostDetailViewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = (
             "title",
             "content",
             "category",
-            "author",
+            "author",   
         )
+
+class PostSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PostView
+        fields = '__all__'
 
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
@@ -28,13 +33,6 @@ class CommentSerializer(serializers.ModelSerializer):
             "post",
             "content",
 
-        )
-class PostViewSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = PostView
-        fields = (
-            "user",
-            "post",
         )
 class LikeSerializer(serializers.ModelSerializer):
     class Meta:
